@@ -10,4 +10,6 @@ dependencies = [
     "langchain-ollama>=0.2.3",
     "pdfplumber>=0.11.5",
     "pyarrow>=19.0.0",
+    "ruff>=0.9.6",
+    "streamlit>=1.42.0",
 ]
