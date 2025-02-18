@@ -1,20 +1,28 @@
-import streamlit as st # type: ignore
-from deepseek_utils import chunk_documents, find_related_documents, generate_answer, index_documents, load_pdf_documents, save_uploaded_file
+import streamlit as st  # type: ignore
+from deepseek_utils import (
+    chunk_documents,
+    find_related_documents,
+    generate_answer,
+    index_documents,
+    load_pdf_documents,
+    save_uploaded_file,
+)
 
-st.markdown("""
+st.markdown(
+    """
     <style>
     .stApp {
         background-color: #0E1117;
         color: #FFFFFF;
     }
-    
+
     /* Chat Input Styling */
     .stChatInput input {
         background-color: #1E1E1E !important;
         color: #FFFFFF !important;
         border: 1px solid #3A3A3A !important;
     }
-    
+
     /* User Message Styling */
     .stChatMessage[data-testid="stChatMessage"]:nth-child(odd) {
         background-color: #1E1E1E !important;
@@ -57,7 +65,9 @@ st.markdown("""
         color: #00FFAA !important;
     }
     </style>
-    """, unsafe_allow_html=True)
+    """,
+    unsafe_allow_html=True,
+)
 
 
 # UI Configuration
@@ -70,8 +80,7 @@ uploaded_pdf = st.file_uploader(
     "Upload Research Document (PDF)",
     type="pdf",
     help="Select a PDF document for analysis",
-    accept_multiple_files=False
-
+    accept_multiple_files=False,
 )
 
 if uploaded_pdf:
@@ -79,18 +88,18 @@ if uploaded_pdf:
     raw_docs = load_pdf_documents(saved_path)
     processed_chunks = chunk_documents(raw_docs)
     index_documents(processed_chunks)
-    
+
     st.success("✅ Document processed successfully! Ask your questions below.")
-    
+
     user_input = st.chat_input("Enter your question about the document...")
-    
+
     if user_input:
         with st.chat_message("user"):
             st.write(user_input)
-        
+
         with st.spinner("Analyzing document..."):
             relevant_docs = find_related_documents(user_input)
             ai_response = generate_answer(user_input, relevant_docs)
-            
+
         with st.chat_message("assistant", avatar="🤖"):
             st.write(ai_response)
