@@ -1,4 +1,4 @@
-from langchain_community.document_loaders import PDFPlumberLoader
+from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 import requests
 import os
@@ -13,7 +13,7 @@ def save_uploaded_file(uploaded_file):
     return file_path
 
 def load_pdf_documents(file_path):
-    document_loader = PDFPlumberLoader(file_path)
+    document_loader = PyPDFLoader(file_path)
     return document_loader.load()
 
 def chunk_documents(raw_documents):
@@ -34,7 +34,7 @@ def generate_answer(user_query, context_documents):
     context_text = "\n\n".join([doc.page_content for doc in context_documents]) 
     prompt = PROMPT_TEMPLATE.format(user_query=user_query, document_context=context_text)
 
-    url = "http://localhost:1234/v1/chat/completions"  
+    url = "http://127.0.0.1:1234/v1/chat/completions"  
     headers = {
         "Content-Type": "application/json"
     }

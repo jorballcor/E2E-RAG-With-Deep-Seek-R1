@@ -1,12 +1,9 @@
 from langchain_core.vectorstores import InMemoryVectorStore
-from sentence_transformers import SentenceTransformer
+from langchain_huggingface import HuggingFaceEmbeddings
 
 
-EMBEDDING_MODEL = SentenceTransformer('all-MiniLM-L6-v2')
-def generate_embeddings(text):
-    return EMBEDDING_MODEL.encode(text)
-
-DOCUMENT_VECTOR_DB = InMemoryVectorStore(embedding_function=generate_embeddings)
+EMBEDDING_MODEL = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+DOCUMENT_VECTOR_DB = InMemoryVectorStore(embedding=EMBEDDING_MODEL)
 
 
 PDF_STORAGE_PATH = 'pdfs/'

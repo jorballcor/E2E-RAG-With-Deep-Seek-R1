@@ -90,9 +90,9 @@ with chat_container:
 user_query = st.chat_input("Type your coding question here...")
 
 def generate_ai_response(prompt_chain):
-    prompt = prompt_chain.invoke({})
+    prompt = prompt_chain.invoke({}).to_string()
     
-    url = "http://localhost:1234/v1/chat/completions"  # URL de la API de LM Studio
+    url = "http://localhost:1234/v1/chat/completions"  
     headers = {
         "Content-Type": "application/json"
     }
